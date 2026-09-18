@@ -8,4 +8,11 @@
 
 Kareef: AUSM + & WENO 5
 
-Pranet: HLLC & WENO 5z
+Pranet: HLLC & WENO 5Z
+
+Required Packages:
+- numpy
+- ...
+
+
+
