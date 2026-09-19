@@ -24,7 +24,7 @@ def HLLC(QL, QR, dx = 1.0, gamma = 1.4):
         Convert conservative Q vector to primitive R vector
         '''
         rho = Q[0, :]
-        u = Q[1, :]
+        u = Q[1, :]/rho
         P = (gamma - 1) * (Q[2, :] - 0.5 * rho * u**2) #Equation of State
         return np.array([rho, u, P])
     def compute_flux(Q):

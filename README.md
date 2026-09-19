@@ -9,6 +9,7 @@
 Kareef: AUSM + & WENO 5
 
 Pranet: HLLC & WENO 5Z
+
 Notes on Pranet I/O:
 - Reconstruction: 
     - Input: Conservative State Matrix (Q), dx (optional)
@@ -28,7 +29,8 @@ Notes on Pranet I/O:
 
 Required Packages:
 - numpy
-- ...
+- dataclass (built into python 3.7)
+
 
 
 
