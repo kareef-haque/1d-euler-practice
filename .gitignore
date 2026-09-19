@@ -1,0 +1,9 @@
+# Ignore VS Code configuration and extensions folders
+.vscode/
+
+# Ignore Python byte-compiled files (.pyc, .pyo)
+*.py[c]
+__pycache__/
+
+# Ignore log files
+*.log
