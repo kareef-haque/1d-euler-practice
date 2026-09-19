@@ -1,8 +1,16 @@
+'''
+Primary References: 
+- https://academicweb.nd.edu/~yzhang10/WENO_ENO.pdf
+- https://github.com/fhermet/euler-1d-solver/blob/main/docs/05_reconstruction.md
+- https://github.com/fhermet/euler-1d-solver/blob/main/euler1d/schemes/reconstruction/weno5.py
+
+'''
 import numpy as np
+
 
 def WENO5Z(Q, dx = 1.0):
     '''
-    Function that takes in current state and outputs left & right fluxes for each interface 
+    Function that takes in current state and outputs left & right states for each interface 
 
     :param ndarray Q:  Conservative state matrix (3, N + 6) 
     :param float dx: Grid spacing, default = 1.0
@@ -33,9 +41,11 @@ def WENO5Z(Q, dx = 1.0):
 
         tau_s = np.abs(beta_k[0] - beta_k[2])
         eps = dx**2
-
-        alpha_k = d_k * (1 + tau_s/(beta_k + eps))
+        # alpha_k = d_k * (1 + tau_s/(beta_k + eps))
+        # omega_k = alpha_k/(np.sum(alpha_k))
+        alpha_k = np.array([d_k[i] * (1 + tau_s/(beta_k[i] + eps)) for i in [0, 1, 2]])
         omega_k = alpha_k/(np.sum(alpha_k))
+
         return omega_k
 
 
@@ -72,7 +82,7 @@ def WENO5Z(Q, dx = 1.0):
     p0 = 1/3 * QL_i + 5/6 * QL_ip1 - 1/6 * QL_ip2
     p1 = -1/6 * QL_im1 + 5/6 * QL_i + 1/3 * QL_ip1
     p2 = 1/3 * QL_im2 - 7/6 * QL_im1 + 11/6 * QL_i
-    pL = np.array(p0, p1, p2)
+    pL = np.array([p0, p1, p2])
 
 
     #Polynomial Reconstruction
@@ -80,11 +90,20 @@ def WENO5Z(Q, dx = 1.0):
     p0 = 11/6 * QR_i - 7/6 * QR_ip1 + 1/3 * QR_ip2
     p1 = 1/3 * QR_im1 + 5/6 * QR_i - 1/6 * QR_ip1
     p2 = -1/6 * QR_im2 + 5/6 * QR_im1 + 1/3 * QR_i
-    pR = np.array(p0, p1, p2)
+    pR = np.array([p0, p1, p2])
 
     #Weighted Reconstruction
-    QL = np.sum(omegaL*pL)
-    QR = np.sum(omegaR*pR)
+
+    QL = np.sum(omegaL*pL, axis = 0)
+    QR = np.sum(omegaR*pR, axis = 0)      
+
+    #clamp to positivy? 
+    QL[0] = np.maximum(1e-10, QL[0])
+#     QL[1] = np.maximum(1e-10, QL[1])
+
+    QR[0] = np.maximum(1e-10, QR[0])
+#     QR[1] = np.maximum(1e-10, QR[1])
+
 
     return (QL, QR)
 
