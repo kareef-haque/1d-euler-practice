@@ -163,12 +163,12 @@ def animate_comparison(results, exact_solver, interval=30):
         p_num_hist.append(P)
 
     fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(8, 9), sharex=True)
-    fig.suptitle('1D Euler Solver: WENO5Z/HLLC vs Exact Analytical', fontsize=13, fontweight='bold')
+    fig.suptitle('1D Euler Solver: WENO5/AUSM+ vs Exact Analytical', fontsize=13, fontweight='bold')
 
     # Numerical lines (scatter/lines)
-    line_rho_num, = ax1.plot([], [], 'b-o', ms=3, lw=1.5, label='Numerical (WENO5Z)')
-    line_u_num,   = ax2.plot([], [], 'r-o', ms=3, lw=1.5, label='Numerical (WENO5Z)')
-    line_p_num,   = ax3.plot([], [], 'g-o', ms=3, lw=1.5, label='Numerical (WENO5Z)')
+    line_rho_num, = ax1.plot([], [], 'b-o', ms=3, lw=1.5, label='Numerical (WENO5)')
+    line_u_num,   = ax2.plot([], [], 'r-o', ms=3, lw=1.5, label='Numerical (WENO5)')
+    line_p_num,   = ax3.plot([], [], 'g-o', ms=3, lw=1.5, label='Numerical (WENO5)')
 
     # Exact solution lines (dashed)
     line_rho_exact, = ax1.plot([], [], 'k--', lw=2, label='Exact Analytical')
