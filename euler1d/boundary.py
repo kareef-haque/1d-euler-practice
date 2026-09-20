@@ -29,13 +29,13 @@ def apply_BC(Q,
         Q_num[:, :ghost_N] = Q[:, 0][:, np.newaxis]
         Q_num[:, -ghost_N:] = Q[:, -1][:, np.newaxis]
     elif BC == 'Reflective':
-        Q_num[:, :ghost_N] = Q[:, 0][:, np.newaxis]
-        Q_num[1, :ghost_N-1] = -Q[1, 0]
-        Q_num[:, -ghost_N:] = Q[:, -1][:, np.newaxis]
-        Q_num[1, -ghost_N:] = -Q[1, -1]
+        Q_num[:, :ghost_N] = Q[:, :ghost_N][:, ::-1]
+        Q_num[1, :ghost_N] *= -1.0
+        Q_num[:, -ghost_N:] = Q[:, -ghost_N:][:, ::-1]
+        Q_num[1, -ghost_N:] *= -1.0
     elif BC == 'Periodical':
-        Q_num[:, :ghost_N] = Q[:, -1][:, np.newaxis]
-        Q_num[:, -ghost_N:] = Q[:, 0][:, np.newaxis]
+        Q_num[:, :ghost_N] = Q[:, -ghost_N:]
+        Q_num[:, -ghost_N:] = Q[:, :ghost_N]
     else:
         raise ValueError('Invalid BC')
         

@@ -234,15 +234,22 @@ def test_riemann_problem():
     """
     Runs Sod Shock Tube problem test case to compare against exact solution.
     """
-    N_cells = 200
+    N_cells = 500
     domain_size = 1.0
-    t_max = 0.0007
+    t_max = 0.05
     dt = 1e-6
     N_ghost = 3
     gamma = 1.4
 
-    flux_scheme = 'HLLC'
-    reconstruction_scheme = 'WENO5Z'
+    '''
+    SCHEME SELECTION
+    '''
+
+    # flux_scheme = 'HLLC'
+    # reconstruction_scheme = 'WENO5Z'
+
+    flux_scheme = 'AUSM+'
+    reconstruction_scheme = 'WENO5'
 
     # Standard Sod Shock Tube problem (or custom initial states)
     rho_L, u_L, P_L = 1.0, 0.0, 100000.0

@@ -16,10 +16,10 @@ from euler1d.results import EulerResults
 from datetime import datetime
 
 from euler1d.schemes.flux.hllc import HLLC
-from euler1d.schemes.flux.ausm_plus import ___
+from euler1d.schemes.flux.ausm_plus import AUSMp
 
 from euler1d.schemes.reconstruction.weno5Z import WENO5Z
-from euler1d.schemes.reconstruction.weno5 import ___
+from euler1d.schemes.reconstruction.weno5 import WENO5
 
  
 def EulerSolver(config: EulerConfig,
@@ -55,15 +55,15 @@ def EulerSolver(config: EulerConfig,
     #TODO: Modify with name of kareef's schemes
     if flux == 'HLLC':
         F_scheme = HLLC
-    elif flux == ___:
-        F_scheme = ___
+    elif flux == 'AUSM+' or flux == 'AUSMp':
+        F_scheme = AUSMp
     else:
         raise ValueError("Invalid Flux Scheme")
 
     if reconstruction == 'WENO5Z':
         R_scheme = WENO5Z
-    elif reconstruction == ___:
-        R_scheme = ___
+    elif reconstruction == 'WENO5':
+        R_scheme = WENO5
     else:
         raise ValueError("Invalid Reconstruction Scheme")
 
@@ -118,7 +118,7 @@ def EulerSolver(config: EulerConfig,
         if iteration_count % 10 == 0:
             current_time = datetime.now()
             elapsed_seconds = (current_time - start_time).total_seconds()
-            print(f"Progress: {iteration_count} iterations ({elapsed_seconds:.3f}s)")
+            print(f"Progress: {iteration_count} | iterations ({elapsed_seconds:.3f}s) | Sim Time ({t_curr:.6f}s): ")
 
     print(f"Simulation Complete")
     Results = EulerResults(Q_hist,
