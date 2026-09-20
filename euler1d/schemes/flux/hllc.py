@@ -42,6 +42,7 @@ def HLLC(QL, QR, dx = 1.0, gamma = 1.4):
     FR = compute_flux(QR)
 
     #wave speeds
+    
     a_L = np.sqrt(gamma*P_L/rho_L)
     a_R = np.sqrt(gamma*P_R/rho_R)
 

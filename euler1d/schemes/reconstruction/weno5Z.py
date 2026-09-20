@@ -26,6 +26,7 @@ def WENO5Z(Q, dx = 1.0):
         '''
         beta0 = 13/12 * (W_i - 2 * W_ip1 + W_ip2)**2 \
                 + 1/4 * (3*W_i - 4*W_ip1 + W_ip2)**2
+        
         beta1 = 13/12 * (W_im1 - 2 *W_i + W_ip1)**2 \
                 + 1/4 * (W_im1 - W_ip1)**2
         beta2 = 13/12 * (W_im2 - 2 * W_im1 + W_i)**2 \
@@ -38,13 +39,12 @@ def WENO5Z(Q, dx = 1.0):
         '''
         beta_k = np.array(betas)
         d_k = np.array(d_ks)
-
         tau_s = np.abs(beta_k[0] - beta_k[2])
         eps = dx**2
         # alpha_k = d_k * (1 + tau_s/(beta_k + eps))
         # omega_k = alpha_k/(np.sum(alpha_k))
         alpha_k = np.array([d_k[i] * (1 + tau_s/(beta_k[i] + eps)) for i in [0, 1, 2]])
-        omega_k = alpha_k/(np.sum(alpha_k))
+        omega_k = alpha_k/(np.sum(alpha_k, axis=0, keepdims=True))
 
         return omega_k
 
@@ -67,7 +67,6 @@ def WENO5Z(Q, dx = 1.0):
     QR_i   = Q[:, 3:n_cell+4]
     QR_ip1 = Q[:, 4:n_cell+5]
     QR_ip2 = Q[:, 5:n_cell+6]
-
 
     #Weighting for Left Stencil
     betaLs = Smooth_Ind(QL_im2, QL_im1, QL_i, QL_ip1, QL_ip2)
@@ -99,10 +98,10 @@ def WENO5Z(Q, dx = 1.0):
 
     #clamp to positivy? 
     QL[0] = np.maximum(1e-10, QL[0])
-#     QL[1] = np.maximum(1e-10, QL[1])
+    QL[1] = np.maximum(1e-10, QL[1])
 
     QR[0] = np.maximum(1e-10, QR[0])
-#     QR[1] = np.maximum(1e-10, QR[1])
+    QR[1] = np.maximum(1e-10, QR[1])
 
 
     return (QL, QR)

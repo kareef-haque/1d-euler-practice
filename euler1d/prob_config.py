@@ -15,14 +15,9 @@ class EulerConfig:
     #define domain
     domain_size: float #m
     N_cells: int #number of cells
-    dx = domain_size / N_cells #m
 
-    t_max: float = field(default = 10) #s
-    dt: float = field(default = 0.01) #s
-
-
-    #parameters
-    gamma: float = field(default = 1.4) #ratio of specific heats
+    domain_size: float  #m
+    N_cells: int  #number of cells
 
     #initial conditions
     IC: np.ndarray #(3, N_cells) Initial Condition of Primative State Matrix
@@ -30,6 +25,18 @@ class EulerConfig:
     #boundary conditions
     BC: str = field(default = 'Zero-Gradient') #Zero-Gradient, Reflective, Periodical
     N_ghost: int = field(default = 3) #number of ghost cells
+
+
+    # other parameters
+    gamma: float = field(default = 1.4) #ratio of specific heats
+    t_max: float = field(default = 10) #s
+    dt: float = field(default = 0.01) #s
+
+
+
+    def __post_init__(self):
+        self.dx = self.domain_size / self.N_cells  # m
+        self.IC[0, :] = np.maximum(1e-9*np.zeros_like(self.IC[0, :]), self.IC[0, :]) #set initial density to avoid division by zero
 
 
 
