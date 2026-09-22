@@ -7,10 +7,11 @@
 - Both methods combinations successfully validated against exact solution of the Sod Shock Tube problem
 
 Kareef: AUSM + & WENO 5
+
 Pranet: HLLC & WENO 5Z
 
 
-# ML Experiments Questions:
+# ML Experiments & Questions:
 
 ### Kareef:
 
