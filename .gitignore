@@ -7,3 +7,9 @@ __pycache__/
 
 # Ignore log files
 *.log
+
+# Ignore .mp4 files
+*.mp4
+
+# Ignore stored generated data
+generated_data

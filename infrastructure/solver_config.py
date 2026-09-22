@@ -1,7 +1,9 @@
 '''
-Problem Configuration Code
+Solver Configuration Code
 - Defines domain and initial conditions as EulerConfig class
     - User must instantiate an instance and feed it to solver
+    - This is specificially to feed into the numerical solver
+        - For physical problem setup, go to physics_config.py
 '''
 from dataclasses import dataclass, field
 import numpy as np
@@ -15,9 +17,6 @@ class EulerConfig:
     #define domain
     domain_size: float #m
     N_cells: int #number of cells
-
-    domain_size: float  #m
-    N_cells: int  #number of cells
 
     #initial conditions
     IC: np.ndarray #(3, N_cells) Initial Condition of Primative State Matrix
@@ -37,6 +36,7 @@ class EulerConfig:
     def __post_init__(self):
         self.dx = self.domain_size / self.N_cells  # m
         self.IC[0, :] = np.maximum(1e-9*np.zeros_like(self.IC[0, :]), self.IC[0, :]) #set initial density to avoid division by zero
+        self.IC[2, :] = np.maximum(1e-9*np.zeros_like(self.IC[2, :]), self.IC[2, :]) #set initial pressure to avoid division by zero
 
 
 

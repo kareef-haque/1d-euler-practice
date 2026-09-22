@@ -11,8 +11,8 @@ Specify solver parameters via...
 
 import numpy as np
 from euler1d.boundary import apply_BC
-from euler1d.prob_config import EulerConfig
-from euler1d.results import EulerResults
+from infrastructure.solver_config import EulerConfig
+from infrastructure.results import EulerResults
 from datetime import datetime
 
 from euler1d.schemes.flux.hllc import HLLC
